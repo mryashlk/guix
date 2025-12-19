@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - guix/todo-ci
     tags:
       - 'v*.*.*'
 
@@ -84,7 +85,7 @@ jobs:
 
       - name: Test
         run: |
-          docker run --rm -v $(pwd)/test/:/root/test/ ${{ env.REGISTRY_IMAGE }} bash /root/test/test.sh
+          docker run --rm --privileged -v $(pwd)/test/:/root/test/ ${{ env.REGISTRY_IMAGE }} sh /root/test/test.sh
 
       - name: Export digest
         if: github.event_name != 'pull_request'
