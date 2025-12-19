@@ -93,7 +93,9 @@ COPY scripts/etc/services /etc/services
 
 # Run pull (https://github.com/docker/buildx/blob/master/README.md#--allowentitlement)
 # Restart with latest version of the daemon and garbage collect
-RUN --security=insecure sh -c '/entry-point.sh guix pull --fallback && guix package --fallback -i nss-certs' \
+# Use --cores=1 to limit memory usage on resource-constrained architectures (ARM64, PowerPC)
+ARG GUIX_BUILD_CORES=2
+RUN --security=insecure sh -c "/entry-point.sh guix pull --fallback --cores=${GUIX_BUILD_CORES} && guix package --fallback -i nss-certs" \
 	&& sh -c '/entry-point.sh guix gc && guix gc --optimize'
 
 ENTRYPOINT ["/entry-point.sh"]
