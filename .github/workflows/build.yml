@@ -85,7 +85,7 @@ jobs:
 
       - name: Test
         run: |
-          docker run --rm --privileged -v $(pwd)/test/:/root/test/ ${{ env.REGISTRY_IMAGE }} sh /root/test/test.sh
+          docker run --rm --privileged -v $(pwd)/test/:/root/test/ ${{ env.REGISTRY_IMAGE }} /root/test/test.sh
 
       - name: Export digest
         if: github.event_name != 'pull_request'
