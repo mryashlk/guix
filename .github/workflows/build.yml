@@ -31,8 +31,8 @@ jobs:
           { docker: linux/arm/v7, guix: armhf-linux },
 
           # ERROR: failed to solve: ResourceExhausted: process "/bin/sh -c sh -c '/entry-point.sh guix pull ..." did not complete successfully: cannot allocate memory
-          # { docker: linux/arm64/v8, guix: aarch64-linux },
-          # { docker: linux/ppc64le, guix: powerpc64le-linux }
+          { docker: linux/arm64/v8, guix: aarch64-linux },
+          { docker: linux/ppc64le, guix: powerpc64le-linux }
         ]
 
     steps:
@@ -85,7 +85,7 @@ jobs:
 
       - name: Test
         run: |
-          docker run --rm --privileged -v $(pwd)/test/:/root/test/ ${{ env.REGISTRY_IMAGE }} /root/test/test.sh
+          docker run --rm -v $(pwd)/test/:/root/test/ ${{ env.REGISTRY_IMAGE }} bash /root/test/test.sh
 
       - name: Export digest
         if: github.event_name != 'pull_request'
