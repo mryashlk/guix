@@ -22,16 +22,16 @@ jobs:
   build:
     name: Build the Docker image
     runs-on: ubuntu-latest
+    timeout-minutes: 360 
     strategy:
       fail-fast: false
       matrix:
         platform: [
-          { docker: linux/amd64, guix: x86_64-linux, cores: 2 },
-          { docker: linux/386, guix: i686-linux, cores: 2 },
-          { docker: linux/arm/v7, guix: armhf-linux, cores: 1 },
-          # Use cores: 1 for ARM64 and PowerPC to reduce memory usage under QEMU emulation
-          { docker: linux/arm64/v8, guix: aarch64-linux, cores: 1 },
-          { docker: linux/ppc64le, guix: powerpc64le-linux, cores: 1 }
+          # { docker: linux/amd64, guix: x86_64-linux, cores: 2 },
+          # { docker: linux/386, guix: i686-linux, cores: 2 },
+          # { docker: linux/arm/v7, guix: armhf-linux, cores: 1 },
+          # { docker: linux/arm64/v8, guix: aarch64-linux, cores: 1 },
+          { docker: linux/ppc64le, guix: powerpc64le-linux, cores: 2 }
         ]
 
     steps:
@@ -82,6 +82,7 @@ jobs:
             METACALL_GUIX_ARCH=${{ matrix.platform.guix }}
             GUIX_BUILD_CORES=${{ matrix.platform.cores }}
           cache-from: type=registry,ref=docker.io/${{ env.REGISTRY_IMAGE }}
+          cache-to: type=inline
 
       - name: Test
         run: |

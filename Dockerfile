@@ -93,10 +93,10 @@ COPY scripts/etc/services /etc/services
 
 # Run pull (https://github.com/docker/buildx/blob/master/README.md#--allowentitlement)
 # Restart with latest version of the daemon and garbage collect
-# Use --cores=1 to limit memory usage on resource-constrained architectures (ARM64, PowerPC)
+# Use --cores to control parallelism (2 for x86, 1-2 for ARM/PowerPC to balance speed vs memory)
 ARG GUIX_BUILD_CORES=2
 RUN --security=insecure sh -c "/entry-point.sh guix pull --fallback --cores=${GUIX_BUILD_CORES} && guix package --fallback -i nss-certs" \
-	&& sh -c '/entry-point.sh guix gc && guix gc --optimize'
+	&& sh -c '/entry-point.sh guix gc'
 
 ENTRYPOINT ["/entry-point.sh"]
 CMD ["sh"]
