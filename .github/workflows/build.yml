@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - master
+      - feature/linux-riscv64
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -31,7 +32,7 @@ jobs:
           { docker: linux/arm64/v8, guix: aarch64-linux },
           { docker: linux/ppc64le, guix: powerpc64le-linux }
           # TODO: https://github.com/metacall/guix/issues/18
-          # { docker: linux/riscv64, guix: riscv64-linux }
+          { docker: linux/riscv64, guix: riscv64-linux }
         ]
 
     steps:
